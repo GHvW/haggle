@@ -1,0 +1,23 @@
+{
+  "name": "haggle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GHvW/haggle.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GHvW/haggle/issues"
+  },
+  "homepage": "https://github.com/GHvW/haggle#readme",
+  "devDependencies": {
+    "jest": "^26.4.2",
+    "typescript": "^4.0.2"
+  }
+}
