@@ -19,14 +19,8 @@ function getem(n: number, stack: Array<{ currentString: string, trie: Trie }>, r
     if (item?.trie.isWord) {
         result.push(item.currentString);
     }
-
-    if (item.trie.next.size === 0) {
-        
-        return getem(n, stack, result);
-    }
     
-    const letters = item.trie.next.entries();
-    for (let [char, trie] of letters) {
+    for (let [char, trie] of item.trie.next.entries()) {
         stack.push({ currentString: item.currentString + char, trie: trie });
     }
 
