@@ -16,7 +16,7 @@ function getem(n: number, stack: Array<{ currentString: string, trie: Trie }>, r
         return result;
     }
 
-    if (item?.trie.isWord) {
+    if (item.trie.isWord) {
         result.push(item.currentString);
     }
     
@@ -29,6 +29,28 @@ function getem(n: number, stack: Array<{ currentString: string, trie: Trie }>, r
 
 function findSuggestions(n: number, s: string, t: Trie): Array<string> {
     return getem(n, [{ currentString: "", trie: t }], []).map(suffix => s.concat(suffix));
+}
+
+function getTo(s: string, trieRoot: Trie): Trie | null {
+    const end = s.length - 1;
+    const loop = (i: number, currentTrie: Trie): Trie | null => {
+        if (i > end) {
+            return currentTrie;
+        }
+        const next = currentTrie.next.get(s.charAt(i));
+        return next === undefined 
+            ? null 
+            : loop(i + 1, next);
+    };
+
+    return loop(0, trieRoot);
+}
+
+function guessOTron(s: string, t: Trie): Array<string> {
+    const currentTrie = getTo(s, t);
+    return currentTrie === null 
+        ? [] 
+        : findSuggestions(3, s, currentTrie);
 }
 
 function makeNode(): Trie {
