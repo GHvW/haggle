@@ -6,35 +6,35 @@ interface Trie {
 }
 
 
-const testAlpha = new Map("abcdefghijklmnopqrstuvwxyz -".split("").map((char, i) => [i, char]));
+// const testAlpha = new Map("abcdefghijklmnopqrstuvwxyz -".split("").map((char, i) => [i, char]));
 
 
-function getem(n: number, currentString: string, stack: Array<{ char: string, trie: Trie}>, result: Array<string>): Array<string> {
+function getem(n: number, stack: Array<{ currentString: string, trie: Trie }>, result: Array<string>): Array<string> {
     const item = stack.pop();
 
     if (result.length === n || item === undefined) {
         return result;
     }
 
-    const newString = currentString + item.char;
     if (item?.trie.isWord) {
-        result.push(newString)
+        result.push(item.currentString);
     }
 
     if (item.trie.next.size === 0) {
-        return getem(n, newString.substring(0, newString.length - 1), stack, result);
+        
+        return getem(n, stack, result);
     }
     
     const letters = item.trie.next.entries();
     for (let [char, trie] of letters) {
-        stack.push({ char, trie });
+        stack.push({ currentString: item.currentString + char, trie: trie });
     }
 
-    return getem(n, newString, stack, result);
+    return getem(n, stack, result);
 }
 
 function findSuggestions(n: number, s: string, t: Trie): Array<string> {
-    return getem(n, "", [{ char: "", trie: t }], []).map(suffix => s.concat(suffix));
+    return getem(n, [{ currentString: "", trie: t }], []).map(suffix => s.concat(suffix));
 }
 
 function makeNode(): Trie {
@@ -70,4 +70,8 @@ function buildTrie(words: Array<string>): Trie {
     }
 
     return root;
+}
+
+function test(): Trie {
+    return buildTrie(["she", "sells", "sea", "shells", "by", "the", "sea", "shore", "short", "of", "a", "seq", "or", "sequence"]);
 }
